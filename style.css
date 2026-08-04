@@ -53,3 +53,58 @@ body{
     color:#444;
 
 }
+.container{
+
+    max-width:900px;
+
+    margin:30px auto;
+
+    padding:20px;
+
+}
+
+.welcome-card,
+
+.profile-card,
+
+.contact-card{
+
+    background:#FFFFFF;
+
+    border-radius:15px;
+
+    padding:25px;
+
+    margin-bottom:25px;
+
+    box-shadow:0 4px 12px rgba(0,0,0,0.08);
+
+}
+
+.welcome-card h2,
+
+.profile-card h2,
+
+.contact-card h2{
+
+    color:#E67E22;
+
+    margin-bottom:15px;
+
+}
+
+.profile-photo{
+
+    width:220px;
+
+    max-width:100%;
+
+    display:block;
+
+    margin:20px auto;
+
+    border-radius:15px;
+
+    border:5px solid #FFD54F;
+
+}
