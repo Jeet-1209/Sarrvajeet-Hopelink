@@ -23,3 +23,44 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 });
+function shareLocation() {
+
+  if (!navigator.geolocation) {
+
+    alert("Location sharing is not supported on this device.");
+
+    return;
+
+  }
+
+  navigator.geolocation.getCurrentPosition(
+
+    function(position) {
+
+      const latitude = position.coords.latitude;
+
+      const longitude = position.coords.longitude;
+
+      const mapUrl =
+
+        "https://www.google.com/maps?q=" +
+
+        latitude +
+
+        "," +
+
+        longitude;
+
+      window.open(mapUrl, "_blank");
+
+    },
+
+    function() {
+
+      alert("Please allow location access so your location can be shared.");
+
+    }
+
+  );
+
+}
