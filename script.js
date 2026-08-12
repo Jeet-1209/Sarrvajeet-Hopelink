@@ -51,7 +51,7 @@ function shareLocation() {
 
         longitude;
 
-      window.open(mapUrl, "_blank");
+      window.location.href = mapUrl;
 
     },
 
