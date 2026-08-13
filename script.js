@@ -33,34 +33,68 @@ function shareLocation() {
 
   }
 
-  navigator.geolocation.getCurrentPosition(
+  function getLocation() {
 
-    function(position) {
+    navigator.geolocation.getCurrentPosition(
 
-      const latitude = position.coords.latitude;
+      function(position) {
 
-      const longitude = position.coords.longitude;
+        const latitude = position.coords.latitude;
 
-      const mapUrl =
+        const longitude = position.coords.longitude;
 
-        "https://www.google.com/maps?q=" +
+        const mapUrl =
 
-        latitude +
+          "https://www.google.com/maps?q=" +
 
-        "," +
+          latitude +
 
-        longitude;
+          "," +
 
-      window.location.href = mapUrl;
+          longitude;
 
-    },
+        window.location.href = mapUrl;
 
-    function() {
+      },
 
-      alert("Please allow location access so your location can be shared.");
+      function() {
+
+        alert("Please turn ON Location Services and allow location access. Then return to this page.");
+
+      },
+
+      {
+
+        enableHighAccuracy: true,
+
+        timeout: 10000,
+
+        maximumAge: 0
+
+      }
+
+    );
+
+  }
+
+  getLocation();
+
+  // Retry when the person returns to the page
+
+  document.addEventListener("visibilitychange", function retryLocation() {
+
+    if (!document.hidden) {
+
+      document.removeEventListener("visibilitychange", retryLocation);
+
+      setTimeout(function() {
+
+        getLocation();
+
+      }, 1000);
 
     }
 
-  );
+  });
 
 }
