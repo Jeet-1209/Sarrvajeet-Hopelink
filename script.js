@@ -98,3 +98,90 @@ function shareLocation() {
   });
 
 }
+function sendEmergencyMessage(phone, app) {
+
+  if (!navigator.geolocation) {
+
+    alert("Location sharing is not supported on this device.");
+
+    return;
+
+  }
+
+  navigator.geolocation.getCurrentPosition(
+
+    function(position) {
+
+      const latitude = position.coords.latitude;
+
+      const longitude = position.coords.longitude;
+
+      const mapUrl =
+
+        "https://www.google.com/maps?q=" +
+
+        latitude +
+
+        "," +
+
+        longitude;
+
+      const message =
+
+        "Hello, I have found Sarrvajeet. Please contact his family urgently. " +
+
+        "My current location is: " +
+
+        mapUrl;
+
+      if (app === "whatsapp") {
+
+        window.location.href =
+
+          "https://wa.me/" +
+
+          phone +
+
+          "?text=" +
+
+          encodeURIComponent(message);
+
+      } else if (app === "sms") {
+
+        window.location.href =
+
+          "sms:" +
+
+          phone +
+
+          "?&body=" +
+
+          encodeURIComponent(message);
+
+      }
+
+    },
+
+    function() {
+
+      alert(
+
+        "Please turn ON Location Services and allow location access. Then try again."
+
+      );
+
+    },
+
+    {
+
+      enableHighAccuracy: true,
+
+      timeout: 10000,
+
+      maximumAge: 0
+
+    }
+
+  );
+
+}
