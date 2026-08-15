@@ -2,244 +2,75 @@
 
    Sarrvajeet's HopeLink
 
-   JavaScript - Version 1
+   JavaScript - Version 2
+
+===================================== */
+
+/* =====================================
+
+   PROFILE PHOTO
 
 ===================================== */
 
 document.addEventListener("DOMContentLoaded", function () {
 
-    console.log("HopeLink loaded successfully.");
+  console.log("HopeLink loaded successfully.");
 
-    const profilePhoto = document.querySelector(".profile-photo");
+  const profilePhoto = document.querySelector(".profile-photo");
 
-    if (profilePhoto) {
+  if (profilePhoto) {
 
-        profilePhoto.addEventListener("click", function () {
-
-            alert("Thank you for helping Sarrvajeet. Please use the contact buttons below if assistance is needed.");
-
-        });
-
-    }
-
-});
-function shareLocation() {
-
-  if (!navigator.geolocation) {
-
-    alert("Location sharing is not supported on this device.");
-
-    return;
-
-  }
-
-  function getLocation() {
-
-    navigator.geolocation.getCurrentPosition(
-
-      function(position) {
-
-        const latitude = position.coords.latitude;
-
-        const longitude = position.coords.longitude;
-
-        const mapUrl =
-
-          "https://www.google.com/maps?q=" +
-
-          latitude +
-
-          "," +
-
-          longitude;
-
-        window.location.href = mapUrl;
-
-      },
-
-      function() {
-
-        alert("Please turn ON Location Services and allow location access. Then return to this page.");
-
-      },
-
-      {
-
-        enableHighAccuracy: true,
-
-        timeout: 10000,
-
-        maximumAge: 0
-
-      }
-
-    );
-
-  }
-
-  getLocation();
-
-  // Retry when the person returns to the page
-
-  document.addEventListener("visibilitychange", function retryLocation() {
-
-    if (!document.hidden) {
-
-      document.removeEventListener("visibilitychange", retryLocation);
-
-      setTimeout(function() {
-
-        getLocation();
-
-      }, 1000);
-
-    }
-
-  });
-
-}
-function sendEmergencyMessage(phone, app) {
-
-  if (!navigator.geolocation) {
-
-    alert("Location sharing is not supported on this device.");
-
-    return;
-
-  }
-
-  function getEmergencyLocation() {
-
-    navigator.geolocation.getCurrentPosition(
-
-      function(position) {
-
-        const latitude = position.coords.latitude;
-
-        const longitude = position.coords.longitude;
-
-        const mapUrl =
-
-          "https://www.google.com/maps?q=" +
-
-          latitude +
-
-          "," +
-
-          longitude;
-
-        const message =
-
-          "Hello, I have found Sarrvajeet. Please contact his family urgently. " +
-
-          "My current location is: " +
-
-          mapUrl;
-
-        if (app === "whatsapp") {
-
-          window.location.href =
-
-            "https://wa.me/" +
-
-            phone +
-
-            "?text=" +
-
-            encodeURIComponent(message);
-
-        } else if (app === "sms") {
-
-          window.location.href =
-
-            "sms:" +
-
-            phone +
-
-            "?&body=" +
-
-            encodeURIComponent(message);
-
-        }
-
-      },
-
-      function() {
-
-        alert(
-
-          "Please turn ON Location Services and allow location access. Then return to this page."
-
-        );
-
-      },
-
-      {
-
-        enableHighAccuracy: true,
-
-        timeout: 10000,
-
-        maximumAge: 0
-
-      }
-
-    );
-
-  }
-
-  getEmergencyLocation();
-
-  // Retry automatically when the person returns to HopeLink
-
-  document.addEventListener("visibilitychange", function retryEmergencyLocation() {
-
-    if (!document.hidden) {
-
-      document.removeEventListener(
-
-        "visibilitychange",
-
-        retryEmergencyLocation
-
-      );
-
-      setTimeout(function() {
-
-        getEmergencyLocation();
-
-      }, 1000);
-
-    }
-
-  });
-
-}
-          
-
-   
-
-        
-
-          
-
-          
-
-          
-
-
-
-   
-
-    },
-
-    function() {
+    profilePhoto.addEventListener("click", function () {
 
       alert(
 
-        "Please turn ON Location Services and allow location access. Then try again."
+        "Thank you for helping Sarrvajeet. Please use the contact buttons below if assistance is needed."
 
       );
+
+    });
+
+  }
+
+});
+
+/* =====================================
+
+   LOCATION SYSTEM
+
+===================================== */
+
+let pendingLocationAction = null;
+
+let locationRetryTimer = null;
+
+/* Get the person's current location */
+
+function getCurrentLocation(successCallback, failureCallback) {
+
+  if (!navigator.geolocation) {
+
+    alert("Location sharing is not supported on this device.");
+
+    return;
+
+  }
+
+  navigator.geolocation.getCurrentPosition(
+
+    function (position) {
+
+      const latitude = position.coords.latitude;
+
+      const longitude = position.coords.longitude;
+
+      successCallback(latitude, longitude);
+
+    },
+
+    function () {
+
+      failureCallback();
 
     },
 
@@ -256,6 +87,263 @@ function sendEmergencyMessage(phone, app) {
   );
 
 }
+
+/* =====================================
+
+   SHARE MY LOCATION
+
+===================================== */
+
+function shareLocation() {
+
+  pendingLocationAction = "share";
+
+  attemptPendingLocation();
+
+}
+
+/* =====================================
+
+   EMERGENCY SMS / WHATSAPP
+
+===================================== */
+
+function sendEmergencyMessage(phone, app) {
+
+  pendingLocationAction = {
+
+    type: "emergency",
+
+    phone: phone,
+
+    app: app
+
+  };
+
+  attemptPendingLocation();
+
+}
+
+/* =====================================
+
+   TRY LOCATION
+
+===================================== */
+
+function attemptPendingLocation() {
+
+  if (!pendingLocationAction) {
+
+    return;
+
+  }
+
+  getCurrentLocation(
+
+    function (latitude, longitude) {
+
+      const mapUrl =
+
+        "https://www.google.com/maps?q=" +
+
+        latitude +
+
+        "," +
+
+        longitude;
+
+      /* -----------------------------
+
+         SHARE LOCATION
+
+      ----------------------------- */
+
+      if (pendingLocationAction === "share") {
+
+        pendingLocationAction = null;
+
+        window.location.href = mapUrl;
+
+        return;
+
+      }
+
+      /* -----------------------------
+
+         EMERGENCY MESSAGE
+
+      ----------------------------- */
+
+      if (
+
+        typeof pendingLocationAction === "object" &&
+
+        pendingLocationAction.type === "emergency"
+
+      ) {
+
+        const phone = pendingLocationAction.phone;
+
+        const app = pendingLocationAction.app;
+
+        const message =
+
+          "Hello, I have found Sarrvajeet. Please contact his family urgently. " +
+
+          "My current location is: " +
+
+          mapUrl;
+
+        /* Clear pending action BEFORE opening WhatsApp/SMS */
+
+        pendingLocationAction = null;
+
+        /* -----------------------------
+
+           WHATSAPP
+
+        ----------------------------- */
+
+        if (app === "whatsapp") {
+
+          window.location.href =
+
+            "https://wa.me/" +
+
+            phone +
+
+            "?text=" +
+
+            encodeURIComponent(message);
+
+          return;
+
+        }
+
+        /* -----------------------------
+
+           SMS
+
+        ----------------------------- */
+
+        if (app === "sms") {
+
+          window.location.href =
+
+            "sms:" +
+
+            phone +
+
+            "?&body=" +
+
+            encodeURIComponent(message);
+
+          return;
+
+        }
+
+      }
+
+    },
+
+    function () {
+
+      /*
+
+         Location is not currently available.
+
+         Keep the action pending so that when
+
+         the person turns Location ON and returns
+
+         to HopeLink, we can try again.
+
+      */
+
+      if (pendingLocationAction) {
+
+        alert(
+
+          "Please turn ON Location Services and allow location access. Then return to this page."
+
+        );
+
+      }
+
+    }
+
+  );
+
+}
+
+/* =====================================
+
+   AUTOMATIC LOCATION RETRY
+
+===================================== */
+
+function retryPendingLocation() {
+
+  if (!pendingLocationAction) {
+
+    return;
+
+  }
+
+  clearTimeout(locationRetryTimer);
+
+  locationRetryTimer = setTimeout(function () {
+
+    attemptPendingLocation();
+
+  }, 700);
+
+}
+
+/*
+
+   When the person returns to HopeLink
+
+   after changing Location settings,
+
+   automatically try again.
+
+*/
+
+document.addEventListener("visibilitychange", function () {
+
+  if (!document.hidden) {
+
+    retryPendingLocation();
+
+  }
+
+});
+
+/*
+
+   Additional support for iPhone/iPad
+
+*/
+
+window.addEventListener("focus", function () {
+
+  retryPendingLocation();
+
+});
+
+window.addEventListener("pageshow", function () {
+
+  retryPendingLocation();
+
+});
+
+/* =====================================
+
+   TRANSLATIONS
+
+===================================== */
+
 const translations = {
 
   ta: {
@@ -352,6 +440,12 @@ const translations = {
 
 };
 
+/* =====================================
+
+   LANGUAGE SELECTION
+
+===================================== */
+
 function setLanguage(language) {
 
   if (language === "en") {
@@ -364,13 +458,21 @@ function setLanguage(language) {
 
   const t = translations[language];
 
-  if (!t) return;
+  if (!t) {
 
-  const elements = document.querySelectorAll("[data-translate]");
+    return;
 
-  elements.forEach(function(element) {
+  }
 
-    const key = element.getAttribute("data-translate");
+  const elements =
+
+    document.querySelectorAll("[data-translate]");
+
+  elements.forEach(function (element) {
+
+    const key =
+
+      element.getAttribute("data-translate");
 
     if (t[key]) {
 
