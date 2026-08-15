@@ -108,57 +108,128 @@ function sendEmergencyMessage(phone, app) {
 
   }
 
-  navigator.geolocation.getCurrentPosition(
+  function getEmergencyLocation() {
 
-    function(position) {
+    navigator.geolocation.getCurrentPosition(
 
-      const latitude = position.coords.latitude;
+      function(position) {
 
-      const longitude = position.coords.longitude;
+        const latitude = position.coords.latitude;
 
-      const mapUrl =
+        const longitude = position.coords.longitude;
 
-        "https://www.google.com/maps?q=" +
+        const mapUrl =
 
-        latitude +
+          "https://www.google.com/maps?q=" +
 
-        "," +
+          latitude +
 
-        longitude;
+          "," +
 
-      const message =
+          longitude;
 
-        "Hello, I have found Sarrvajeet. Please contact his family urgently. " +
+        const message =
 
-        "My current location is: " +
+          "Hello, I have found Sarrvajeet. Please contact his family urgently. " +
 
-        mapUrl;
+          "My current location is: " +
 
-      if (app === "whatsapp") {
+          mapUrl;
 
-        window.location.href =
+        if (app === "whatsapp") {
 
-          "https://wa.me/" +
+          window.location.href =
 
-          phone +
+            "https://wa.me/" +
 
-          "?text=" +
+            phone +
 
-          encodeURIComponent(message);
+            "?text=" +
 
-      } else if (app === "sms") {
+            encodeURIComponent(message);
 
-        window.location.href =
+        } else if (app === "sms") {
 
-          "sms:" +
+          window.location.href =
 
-          phone +
+            "sms:" +
 
-          "?&body=" +
+            phone +
 
-          encodeURIComponent(message);
+            "?&body=" +
+
+            encodeURIComponent(message);
+
+        }
+
+      },
+
+      function() {
+
+        alert(
+
+          "Please turn ON Location Services and allow location access. Then return to this page."
+
+        );
+
+      },
+
+      {
+
+        enableHighAccuracy: true,
+
+        timeout: 10000,
+
+        maximumAge: 0
 
       }
+
+    );
+
+  }
+
+  getEmergencyLocation();
+
+  // Retry automatically when the person returns to HopeLink
+
+  document.addEventListener("visibilitychange", function retryEmergencyLocation() {
+
+    if (!document.hidden) {
+
+      document.removeEventListener(
+
+        "visibilitychange",
+
+        retryEmergencyLocation
+
+      );
+
+      setTimeout(function() {
+
+        getEmergencyLocation();
+
+      }, 1000);
+
+    }
+
+  });
+
+}
+          
+
+   
+
+        
+
+          
+
+          
+
+          
+
+
+
+   
 
     },
 
