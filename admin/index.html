@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>HopeLink Private Scan Dashboard</title>
+
+  <style>
+
+    body {
+
+      font-family: Arial, sans-serif;
+
+      margin: 0;
+
+      padding: 20px;
+
+      background: #f5f5f5;
+
+      color: #222;
+
+    }
+
+    .header {
+
+      background: #ffffff;
+
+      padding: 22px;
+
+      border-radius: 16px;
+
+      margin-bottom: 20px;
+
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+
+    }
+
+    h1 {
+
+      margin: 0 0 8px;
+
+    }
+
+    .subtitle {
+
+      color: #666;
+
+    }
+
+    .summary {
+
+      display: grid;
+
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+
+      gap: 15px;
+
+      margin-bottom: 20px;
+
+    }
+
+    .card {
+
+      background: white;
+
+      padding: 18px;
+
+      border-radius: 14px;
+
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+
+    }
+
+    .number {
+
+      font-size: 28px;
+
+      font-weight: bold;
+
+      margin-top: 8px;
+
+    }
+
+    .scan {
+
+      background: white;
+
+      padding: 18px;
+
+      border-radius: 14px;
+
+      margin-bottom: 14px;
+
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+
+    }
+
+    .scan strong {
+
+      font-size: 17px;
+
+    }
+
+    .row {
+
+      margin-top: 8px;
+
+    }
+
+    .gps {
+
+      color: green;
+
+      font-weight: bold;
+
+    }
+
+    .approx {
+
+      color: #c77700;
+
+      font-weight: bold;
+
+    }
+
+    .unavailable {
+
+      color: #777;
+
+      font-weight: bold;
+
+    }
+
+    .note {
+
+      margin-top: 25px;
+
+      padding: 15px;
+
+      background: #fff8e6;
+
+      border-radius: 12px;
+
+      font-size: 14px;
+
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <div class="header">
+
+    <h1>🌼 Sarrvajeet's HopeLink</h1>
+
+    <div class="subtitle">
+
+      Private Scan Dashboard — Prototype
+
+    </div>
+
+  </div>
+
+  <div class="summary">
+
+    <div class="card">
+
+      <div>Total Scans</div>
+
+      <div class="number">3</div>
+
+    </div>
+
+    <div class="card">
+
+      <div>Today's Scans</div>
+
+      <div class="number">3</div>
+
+    </div>
+
+    <div class="card">
+
+      <div>GPS Available</div>
+
+      <div class="number">1</div>
+
+    </div>
+
+    <div class="card">
+
+      <div>Devices</div>
+
+      <div class="number">2</div>
+
+    </div>
+
+  </div>
+
+  <h2>Recent HopeLink Scans</h2>
+
+  <div class="scan">
+
+    <strong>🔎 Scan ID: HL-0001</strong>
+
+    <div class="row">
+
+      🕐 15 August 2026 — 7:12 PM
+
+    </div>
+
+    <div class="row">
+
+      📱 Device: iPhone
+
+    </div>
+
+    <div class="row">
+
+      🌐 Browser: Safari
+
+    </div>
+
+    <div class="row">
+
+      🌍 Language: Tamil
+
+    </div>
+
+    <div class="row gps">
+
+      🟢 GPS Location: Available
+
+    </div>
+
+  </div>
+
+  <div class="scan">
+
+    <strong>🔎 Scan ID: HL-0002</strong>
+
+    <div class="row">
+
+      🕐 15 August 2026 — 7:19 PM
+
+    </div>
+
+    <div class="row">
+
+      📱 Device: Android
+
+    </div>
+
+    <div class="row">
+
+      🌐 Browser: Chrome
+
+    </div>
+
+    <div class="row">
+
+      🌍 Language: English
+
+    </div>
+
+    <div class="row approx">
+
+      🟠 Approximate Network Location
+
+    </div>
+
+  </div>
+
+  <div class="scan">
+
+    <strong>🔎 Scan ID: HL-0003</strong>
+
+    <div class="row">
+
+      🕐 15 August 2026 — 7:25 PM
+
+    </div>
+
+    <div class="row">
+
+      📱 Device: iPhone
+
+    </div>
+
+    <div class="row">
+
+      🌐 Browser: Safari
+
+    </div>
+
+    <div class="row">
+
+      🌍 Language: Hindi
+
+    </div>
+
+    <div class="row unavailable">
+
+      ⚪ Location Not Available
+
+    </div>
+
+  </div>
+
+  <div class="note">
+
+    🔒 Prototype only. These are sample records.
+
+    No real visitor information is being collected yet.
+
+  </div>
+
+</body>
+
+</html>
