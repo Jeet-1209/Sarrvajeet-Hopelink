@@ -234,7 +234,7 @@ function attemptPendingLocation() {
 
             phone +
 
-            "?&body=" +
+            "?body=" +
 
             encodeURIComponent(message);
 
