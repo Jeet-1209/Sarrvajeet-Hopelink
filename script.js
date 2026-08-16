@@ -296,7 +296,7 @@ function retryPendingLocation() {
 
     attemptPendingLocation();
 
-  }, 700);
+  }, 2500);
 
 }
 
@@ -306,7 +306,7 @@ function retryPendingLocation() {
 
    after changing Location settings,
 
-   automatically try again.
+   wait 2.5 seconds and try again.
 
 */
 
