@@ -34,6 +34,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 
+/
 /* =====================================
 
    LOCATION SYSTEM
@@ -44,7 +45,13 @@ let pendingLocationAction = null;
 
 let locationRetryTimer = null;
 
-/* Get the person's current location */
+let locationWatchId = null;
+
+/* =====================================
+
+   GET CURRENT LOCATION
+
+===================================== */
 
 function getCurrentLocation(successCallback, failureCallback) {
 
@@ -68,9 +75,11 @@ function getCurrentLocation(successCallback, failureCallback) {
 
     },
 
-    function () {
+    function (error) {
 
-      failureCallback();
+      console.log("Location error:", error.code, error.message);
+
+      failureCallback(error);
 
     },
 
@@ -78,7 +87,7 @@ function getCurrentLocation(successCallback, failureCallback) {
 
       enableHighAccuracy: true,
 
-      timeout: 10000,
+      timeout: 15000,
 
       maximumAge: 0
 
@@ -152,27 +161,51 @@ function attemptPendingLocation() {
 
         longitude;
 
-      /* -----------------------------
+      /* --------------------------------
 
-         SHARE LOCATION
+         SHARE MY LOCATION
 
-      ----------------------------- */
+      -------------------------------- */
 
       if (pendingLocationAction === "share") {
 
         pendingLocationAction = null;
 
-        window.location.href = mapUrl;
+        /* Use device sharing when available */
+
+        if (navigator.share) {
+
+          navigator.share({
+
+            title: "My Current Location",
+
+            text: "My current location is:",
+
+            url: mapUrl
+
+          }).catch(function () {
+
+            /* User cancelled sharing */
+
+          });
+
+        } else {
+
+          window.location.href = mapUrl;
+
+        }
+
+        stopLocationWatch();
 
         return;
 
       }
 
-      /* -----------------------------
+      /* --------------------------------
 
          EMERGENCY MESSAGE
 
-      ----------------------------- */
+      -------------------------------- */
 
       if (
 
@@ -194,15 +227,17 @@ function attemptPendingLocation() {
 
           mapUrl;
 
-        /* Clear pending action BEFORE opening WhatsApp/SMS */
+        /* Clear action before opening app */
 
         pendingLocationAction = null;
 
-        /* -----------------------------
+        stopLocationWatch();
+
+        /* --------------------------------
 
            WHATSAPP
 
-        ----------------------------- */
+        -------------------------------- */
 
         if (app === "whatsapp") {
 
@@ -220,11 +255,11 @@ function attemptPendingLocation() {
 
         }
 
-        /* -----------------------------
+        /* --------------------------------
 
            SMS
 
-        ----------------------------- */
+        -------------------------------- */
 
         if (app === "sms") {
 
@@ -246,29 +281,45 @@ function attemptPendingLocation() {
 
     },
 
-    function () {
+    function (error) {
 
-      /*
+      console.log("Unable to get location.");
 
-         Location is not currently available.
+      if (!pendingLocationAction) {
 
-         Keep the action pending so that when
+        return;
 
-         the person turns Location ON and returns
+      }
 
-         to HopeLink, we can try again.
+      /* --------------------------------
 
-      */
+         LOCATION IS OFF / NOT AVAILABLE
 
-      if (pendingLocationAction) {
+      -------------------------------- */
+
+      if (error && error.code === 1) {
 
         alert(
 
-          "Please turn ON Location Services and allow location access. Then return to this page."
+          "Please allow location access for this website. " +
+
+          "Then return to HopeLink and tap My Location again."
+
+        );
+
+      } else {
+
+        alert(
+
+          "Please turn ON Location Services. " +
+
+          "Then return to HopeLink. We will try again."
 
         );
 
       }
+
+      startLocationWatch();
 
     }
 
@@ -278,7 +329,95 @@ function attemptPendingLocation() {
 
 /* =====================================
 
-   AUTOMATIC LOCATION RETRY
+   WATCH FOR LOCATION TO BECOME AVAILABLE
+
+===================================== */
+
+function startLocationWatch() {
+
+  if (!navigator.geolocation) {
+
+    return;
+
+  }
+
+  if (locationWatchId !== null) {
+
+    return;
+
+  }
+
+  locationWatchId = navigator.geolocation.watchPosition(
+
+    function (position) {
+
+      console.log("Location became available.");
+
+      stopLocationWatch();
+
+      if (pendingLocationAction) {
+
+        attemptPendingLocation();
+
+      }
+
+    },
+
+    function (error) {
+
+      console.log(
+
+        "Waiting for location...",
+
+        error.code,
+
+        error.message
+
+      );
+
+    },
+
+    {
+
+      enableHighAccuracy: true,
+
+      timeout: 15000,
+
+      maximumAge: 0
+
+    }
+
+  );
+
+}
+
+/* =====================================
+
+   STOP LOCATION WATCH
+
+===================================== */
+
+function stopLocationWatch() {
+
+  if (
+
+    locationWatchId !== null &&
+
+    navigator.geolocation
+
+  ) {
+
+    navigator.geolocation.clearWatch(locationWatchId);
+
+    locationWatchId = null;
+
+  }
+
+}
+
+/* =====================================
+
+   RETRY WHEN PAGE BECOMES ACTIVE
 
 ===================================== */
 
@@ -294,49 +433,73 @@ function retryPendingLocation() {
 
   locationRetryTimer = setTimeout(function () {
 
-    attemptPendingLocation();
+    if (!document.hidden) {
 
-  }, 2500);
+      attemptPendingLocation();
+
+    }
+
+  }, 1000);
 
 }
 
-/*
+/* =====================================
 
-   When the person returns to HopeLink
+   PAGE VISIBILITY
 
-   after changing Location settings,
+===================================== */
 
-   wait 2.5 seconds and try again.
+document.addEventListener(
 
-*/
+  "visibilitychange",
 
-document.addEventListener("visibilitychange", function () {
+  function () {
 
-  if (!document.hidden) {
+    if (!document.hidden) {
+
+      retryPendingLocation();
+
+    }
+
+  }
+
+);
+
+/* =====================================
+
+   WINDOW FOCUS
+
+===================================== */
+
+window.addEventListener(
+
+  "focus",
+
+  function () {
 
     retryPendingLocation();
 
   }
 
-});
+);
 
-/*
+/* =====================================
 
-   Additional support for iPhone/iPad
+   PAGE SHOW
 
-*/
+===================================== */
 
-window.addEventListener("focus", function () {
+window.addEventListener(
 
-  retryPendingLocation();
+  "pageshow",
 
-});
+  function () {
 
-window.addEventListener("pageshow", function () {
+    retryPendingLocation();
 
-  retryPendingLocation();
+  }
 
-});
+);
 
 /* =====================================
 
