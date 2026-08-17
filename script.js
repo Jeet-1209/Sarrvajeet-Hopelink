@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 
-/
+
 /* =====================================
 
    LOCATION SYSTEM
