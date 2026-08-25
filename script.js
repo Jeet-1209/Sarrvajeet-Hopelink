@@ -646,3 +646,106 @@ function setLanguage(language) {
   });
 
 }
+/* =====================================
+
+   SUPABASE SCAN RECORDING
+
+===================================== */
+
+const HOPELINK_SUPABASE_URL =
+
+  "https://vnlrsjgyugxfsrjuixjs.supabase.co";
+
+const HOPELINK_SUPABASE_KEY =
+
+  "sb_publishable_bMQ03djIyUNPEeGgKNrD9w_b1_nSwXb";
+
+/* Create Supabase connection */
+
+const hopeLinkSupabase =
+
+  window.supabase.createClient(
+
+    HOPELINK_SUPABASE_URL,
+
+    HOPELINK_SUPABASE_KEY
+
+  );
+
+/* Record a HopeLink scan */
+
+async function recordHopeLinkScan() {
+
+  try {
+
+    const deviceType =
+
+      /iPhone|iPad|iPod/i.test(navigator.userAgent)
+
+        ? "Apple"
+
+        : /Android/i.test(navigator.userAgent)
+
+        ? "Android"
+
+        : "Other";
+
+    const { error } =
+
+      await hopeLinkSupabase
+
+        .from("scan_events")
+
+        .insert({
+
+          scan_type: "page_scan",
+
+          device_type: deviceType,
+
+          user_agent: navigator.userAgent
+
+        });
+
+    if (error) {
+
+      console.error(
+
+        "HopeLink scan recording error:",
+
+        error
+
+      );
+
+      return;
+
+    }
+
+    console.log("HopeLink scan recorded successfully.");
+
+  } catch (error) {
+
+    console.error(
+
+      "HopeLink Supabase error:",
+
+      error
+
+    );
+
+  }
+
+}
+
+/* Record scan after page loads */
+
+document.addEventListener(
+
+  "DOMContentLoaded",
+
+  function () {
+
+    recordHopeLinkScan();
+
+  }
+
+);
