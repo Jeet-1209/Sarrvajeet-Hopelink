@@ -646,7 +646,7 @@ function setLanguage(language) {
   });
 
 }
-
+/
 /* =====================================
 
    SUPABASE SCAN + LOCATION RECORDING
