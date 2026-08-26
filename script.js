@@ -646,9 +646,10 @@ function setLanguage(language) {
   });
 
 }
+/
 /* =====================================
 
-   SUPABASE SCAN RECORDING
+   SUPABASE SCAN + LOCATION RECORDING
 
 ===================================== */
 
@@ -672,7 +673,69 @@ const hopeLinkSupabase =
 
   );
 
-/* Record a HopeLink scan */
+/* Get best available location */
+
+function getScanLocation() {
+
+  return new Promise(function (resolve) {
+
+    if (!navigator.geolocation) {
+
+      resolve(null);
+
+      return;
+
+    }
+
+    navigator.geolocation.getCurrentPosition(
+
+      function (position) {
+
+        resolve({
+
+          latitude: position.coords.latitude,
+
+          longitude: position.coords.longitude,
+
+          accuracy: position.coords.accuracy
+
+        });
+
+      },
+
+      function (error) {
+
+        console.log(
+
+          "Scan location unavailable:",
+
+          error.code,
+
+          error.message
+
+        );
+
+        resolve(null);
+
+      },
+
+      {
+
+        enableHighAccuracy: true,
+
+        timeout: 15000,
+
+        maximumAge: 0
+
+      }
+
+    );
+
+  });
+
+}
+
+/* Record HopeLink scan */
 
 async function recordHopeLinkScan() {
 
@@ -690,21 +753,43 @@ async function recordHopeLinkScan() {
 
         : "Other";
 
+    /* Try to obtain location */
+
+    const location = await getScanLocation();
+
+    /* Prepare scan information */
+
+    const scanData = {
+
+      scan_type: "page_scan",
+
+      device_type: deviceType,
+
+      user_agent: navigator.userAgent
+
+    };
+
+    /* Add location when available */
+
+    if (location) {
+
+      scanData.latitude = location.latitude;
+
+      scanData.longitude = location.longitude;
+
+      scanData.accuracy = location.accuracy;
+
+    }
+
+    /* Save scan */
+
     const { error } =
 
       await hopeLinkSupabase
 
         .from("scan_events")
 
-        .insert({
-
-          scan_type: "page_scan",
-
-          device_type: deviceType,
-
-          user_agent: navigator.userAgent
-
-        });
+        .insert(scanData);
 
     if (error) {
 
@@ -720,13 +805,17 @@ async function recordHopeLinkScan() {
 
     }
 
-    console.log("HopeLink scan recorded successfully.");
+    console.log(
+
+      "HopeLink scan and location recorded successfully."
+
+    );
 
   } catch (error) {
 
     console.error(
 
-      "HopeLink Supabase error:",
+      "HopeLink recording error:",
 
       error
 
@@ -736,7 +825,7 @@ async function recordHopeLinkScan() {
 
 }
 
-/* Record scan after page loads */
+/* Record scan when page loads */
 
 document.addEventListener(
 
