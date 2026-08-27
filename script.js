@@ -326,13 +326,11 @@ function attemptPendingLocation() {
   );
 
 }
-
 /* =====================================
 
    WATCH FOR LOCATION TO BECOME AVAILABLE
 
 ===================================== */
-
 function startLocationWatch() {
 
   if (!navigator.geolocation) {
@@ -390,7 +388,6 @@ function startLocationWatch() {
   );
 
 }
-
 /* =====================================
 
    STOP LOCATION WATCH
@@ -433,7 +430,7 @@ function retryPendingLocation() {
 
   locationRetryTimer = setTimeout(function () {
 
-    if (!document.hidden) {
+    if (!document.hidden && pendingLocationAction) {
 
       attemptPendingLocation();
 
@@ -442,7 +439,6 @@ function retryPendingLocation() {
   }, 1000);
 
 }
-
 /* =====================================
 
    PAGE VISIBILITY
