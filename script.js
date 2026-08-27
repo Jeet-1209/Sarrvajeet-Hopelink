@@ -171,8 +171,6 @@ function attemptPendingLocation() {
 
         pendingLocationAction = null;
 
-        /* Use device sharing when available */
-
         if (navigator.share) {
 
           navigator.share({
@@ -194,8 +192,6 @@ function attemptPendingLocation() {
           window.location.href = mapUrl;
 
         }
-
-        stopLocationWatch();
 
         return;
 
@@ -227,11 +223,7 @@ function attemptPendingLocation() {
 
           mapUrl;
 
-        /* Clear action before opening app */
-
         pendingLocationAction = null;
-
-        stopLocationWatch();
 
         /* --------------------------------
 
@@ -283,13 +275,59 @@ function attemptPendingLocation() {
 
     function (error) {
 
-      console.log("Unable to get location.");
+      console.log(
 
-      if (!pendingLocationAction) {
+        "Unable to get location.",
 
-        return;
+        error.code,
+
+        error.message
+
+      );
+
+      /*
+
+         IMPORTANT:
+
+         Cancel the old action so Safari
+
+         cannot keep repeating it.
+
+      */
+
+      pendingLocationAction = null;
+
+      clearTimeout(locationRetryTimer);
+
+      stopLocationWatch();
+
+      if (error && error.code === 1) {
+
+        alert(
+
+          "Please allow location access for this website. " +
+
+          "Then turn ON Location Services and tap the button again."
+
+        );
+
+      } else {
+
+        alert(
+
+          "Please turn ON Location Services. " +
+
+          "Then tap the button again."
+
+        );
 
       }
+
+    }
+
+  );
+
+}
 
       /* --------------------------------
 
