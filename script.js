@@ -329,33 +329,23 @@ function attemptPendingLocation() {
 
 }
 
-      /* --------------------------------
+      
 
-         LOCATION IS OFF / NOT AVAILABLE
 
-      -------------------------------- */
 
-      if (error && error.code === 1) {
+         
 
-        alert(
+      
 
-          "Please allow location access for this website. " +
 
-          "Then return to HopeLink and tap My Location again."
 
-        );
+      
 
-      } else {
 
-        alert(
 
-          "Please turn ON Location Services. " +
+        
 
-          "Then return to HopeLink. We will try again."
-
-        );
-
-      }
+      
 
       startLocationWatch();
 
@@ -363,7 +353,7 @@ function attemptPendingLocation() {
 
   );
 
-}
+
 /* =====================================
 
    WATCH FOR LOCATION TO BECOME AVAILABLE
