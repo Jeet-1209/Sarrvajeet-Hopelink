@@ -445,25 +445,25 @@ function stopLocationWatch() {
 
 ===================================== */
 
+/*
+
+   Automatic retry is disabled.
+
+   On iPhone, Safari can fire multiple
+
+   focus/visibility events when Location
+
+   Services or permission dialogs appear.
+
+   The user can simply turn Location ON
+
+   and tap the button again.
+
+*/
+
 function retryPendingLocation() {
 
-  if (!pendingLocationAction) {
-
-    return;
-
-  }
-
-  clearTimeout(locationRetryTimer);
-
-  locationRetryTimer = setTimeout(function () {
-
-    if (!document.hidden && pendingLocationAction) {
-
-      attemptPendingLocation();
-
-    }
-
-  }, 1000);
+  return;
 
 }
 /* =====================================
