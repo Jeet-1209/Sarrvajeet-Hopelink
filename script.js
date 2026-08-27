@@ -347,11 +347,10 @@ function attemptPendingLocation() {
 
       
 
-      startLocationWatch();
+      
+    
 
-    }
-
-  );
+  
 
 
 /* =====================================
