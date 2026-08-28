@@ -271,17 +271,49 @@ function attemptPendingLocation() {
 
       }
 
-    },
+     },
 
-    console.log(
+    function (error) {
 
-  "Unable to get location.",
+      console.log(
 
-  error.code,
+        "Unable to get location.",
 
-  error.message
+        error.code,
 
-);
+        error.message
+
+      );
+
+      pendingLocationAction = null;
+
+      clearTimeout(locationRetryTimer);
+
+      stopLocationWatch();
+
+      if (error && error.code === 1) {
+
+        alert(
+
+          "Please allow location access for this website. " +
+
+          "Then turn ON Location Services and tap the button again."
+
+        );
+
+      } else {
+
+        alert(
+
+          "Please turn ON Location Services. " +
+
+          "Then tap the button again."
+
+        );
+
+      }
+
+    }
 
 alert(
 
