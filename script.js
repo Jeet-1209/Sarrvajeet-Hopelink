@@ -303,15 +303,15 @@ function attemptPendingLocation() {
 
       } else {
 
-        alert(
+      
 
-          "Please turn ON Location Services. " +
+         
 
-          "Then tap the button again."
+          
 
-        );
+        
 
-      }
+      
 
     }
 
