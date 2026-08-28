@@ -273,17 +273,27 @@ function attemptPendingLocation() {
 
     },
 
-    function (error) {
+    console.log(
 
-      console.log(
+  "Unable to get location.",
 
-        "Unable to get location.",
+  error.code,
 
-        error.code,
+  error.message
 
-        error.message
+);
 
-      );
+alert(
+
+  "Location error code: " +
+
+  error.code +
+
+  "\n\n" +
+
+  error.message
+
+);
 
       /*
 
