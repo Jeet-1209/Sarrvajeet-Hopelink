@@ -285,48 +285,6 @@ function attemptPendingLocation() {
 
       );
 
-      pendingLocationAction = null;
-
-      clearTimeout(locationRetryTimer);
-
-      stopLocationWatch();
-
-      if (error && error.code === 1) {
-
-        alert(
-
-          "Please allow location access for this website. " +
-
-          "Then turn ON Location Services and tap the button again."
-
-        );
-
-      } else {
-
-      
-
-         
-
-          
-
-        
-
-      
-
-    }
-
-alert(
-
-  "Location error code: " +
-
-  error.code +
-
-  "\n\n" +
-
-  error.message
-
-);
-
       /*
 
          IMPORTANT:
@@ -366,10 +324,6 @@ alert(
       }
 
     }
-
-  );
-
-}
 
       
 
