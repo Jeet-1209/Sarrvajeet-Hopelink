@@ -446,7 +446,29 @@ function stopLocationWatch() {
 
 function retryPendingLocation() {
 
-  return;
+  if (!pendingLocationAction) {
+
+    return;
+
+  }
+
+  if (locationRetryTimer !== null) {
+
+    return;
+
+  }
+
+  locationRetryTimer = setTimeout(function () {
+
+    locationRetryTimer = null;
+
+    if (pendingLocationAction) {
+
+      attemptPendingLocation();
+
+    }
+
+  }, 500);
 
 }
 /* =====================================
