@@ -324,7 +324,9 @@ function attemptPendingLocation() {
       }
 
     }
+  );
 
+}
       
 
 
