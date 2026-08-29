@@ -301,41 +301,26 @@ function attemptPendingLocation() {
 
       stopLocationWatch();
 
-      if (error && error.code === 1) {
+   if (error && error.code === 1) {
 
-        alert(
+  console.log(
 
-          "Please allow location access for this website. " +
+    "Location permission denied. Please turn ON Location Services and try again."
 
-          "Then turn ON Location Services and tap the button again."
+  );
 
-        );
+} else {
 
-      } else {
+  console.log(
 
-        alert(
+    "Location unavailable. Please turn ON Location Services and try again."
 
-          "Please turn ON Location Services. " +
-
-          "Then tap the button again."
-
-        );
-
-      }
-
-    }
   );
 
 }
-      
+  );
 
-
-
-         
-
-      
-
-
+}
 
       
 
