@@ -313,14 +313,22 @@ function attemptPendingLocation() {
 
   console.log(
 
-    "Location unavailable. Please turn ON Location Services and try again."
+    "Location unavailable. Please turn ON Location Services and try 
+again."
+);
+
+      }
+
+    }
 
   );
 
 }
-  );
+  
 
-}
+  
+
+
 
       
 
