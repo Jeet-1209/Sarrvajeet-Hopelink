@@ -303,23 +303,21 @@ function attemptPendingLocation() {
 
    if (error && error.code === 1) {
 
-  console.log(
+  alert(
 
-    "Location permission denied. Please turn ON Location Services and try again."
+    "Location is currently unavailable.\n\nPlease turn ON Location Services and try again."
 
   );
 
 } else {
 
-  console.log(
+  alert(
 
-    "Location unavailable. Please turn ON Location Services and try again."
+    "Location is currently unavailable.\n\nPlease turn ON Location Services and try again."
 
   );
 
-}
-
-  
+}  
 
 
 
