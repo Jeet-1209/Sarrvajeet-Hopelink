@@ -215,13 +215,43 @@ function attemptPendingLocation() {
 
         const app = pendingLocationAction.app;
 
-        const message =
+        let message;
 
-          "Hello, I have found Sarrvajeet. Please contact his family urgently. " +
+if (currentLanguage === "ta") {
 
-          "My current location is: " +
+  message =
 
-          mapUrl;
+    "நான் சர்வஜீத்தை கண்டுபிடித்துள்ளேன். " +
+
+    "தயவுசெய்து அவரது குடும்பத்தினரை அவசரமாக தொடர்புகொள்ளவும். " +
+
+    "எனது தற்போதைய இருப்பிடம்: " +
+
+    mapUrl;
+
+} else if (currentLanguage === "hi") {
+
+  message =
+
+    "मुझे सर्वजीत मिल गए हैं। " +
+
+    "कृपया उनके परिवार से तुरंत संपर्क करें। " +
+
+    "मेरा वर्तमान स्थान: " +
+
+    mapUrl;
+
+} else {
+
+  message =
+
+    "Hello, I have found Sarrvajeet. Please contact his family urgently. " +
+
+    "My current location is: " +
+
+    mapUrl;
+
+}
 
         pendingLocationAction = null;
 
