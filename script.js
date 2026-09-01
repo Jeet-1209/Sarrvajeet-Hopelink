@@ -301,23 +301,13 @@ function attemptPendingLocation() {
 
       stopLocationWatch();
 
-   if (error && error.code === 1) {
+   alert(
 
-  alert(
+  "Location is currently unavailable.\n\nPlease turn ON Location Services and try again."
 
-    "Location is currently unavailable.\n\nPlease turn ON Location Services and try again."
+);
 
-  );
 
-} else {
-
-  alert(
-
-    "Location is currently unavailable.\n\nPlease turn ON Location Services and try again."
-
-  );
-
-}  
 
 
 
