@@ -5,7 +5,7 @@
    JavaScript - Version 2
 
 ===================================== */
-
+let currentLanguage = "en";
 /* =====================================
 
    PROFILE PHOTO
@@ -623,8 +623,9 @@ const translations = {
 
 function setLanguage(language) {
 
-  if (language === "en") {
+  currentLanguage = language;
 
+  if (language === "en") {
     location.reload();
 
     return;
