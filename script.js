@@ -748,21 +748,34 @@ function getScanLocation() {
 
       function (error) {
 
-        console.log(
+  console.log(
 
-          "Scan location unavailable:",
+    "Scan location unavailable:",
 
-          error.code,
+    error.code,
 
-          error.message
+    error.message
 
-        );
+  );
 
-        resolve(null);
+  alert(
 
-      },
+    "HopeLink location error\n\n" +
 
-      {
+    "Error code: " +
+
+    error.code +
+
+    "\n\n" +
+
+    error.message
+
+  );
+
+  resolve(null);
+
+},
+       {
 
         enableHighAccuracy: true,
 
