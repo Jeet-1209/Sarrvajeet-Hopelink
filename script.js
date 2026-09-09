@@ -672,23 +672,11 @@ function getScanLocation() {
 
   );
 
-  alert(
-
-    "HopeLink location error\n\n" +
-
-    "Error code: " +
-
-    error.code +
-
-    "\n\n" +
-
-    error.message
-
-  );
-
   resolve(null);
 
 },
+
+
        {
 
         enableHighAccuracy: true,
