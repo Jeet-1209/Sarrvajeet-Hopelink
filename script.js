@@ -327,9 +327,7 @@ if (currentLanguage === "ta") {
 
       pendingLocationAction = null;
 
-      clearTimeout(locationRetryTimer);
-
-      stopLocationWatch();
+clearTimeout(locationRetryTimer);
 
    alert(
 
@@ -368,91 +366,7 @@ if (currentLanguage === "ta") {
   
 
 
-/* =====================================
 
-   WATCH FOR LOCATION TO BECOME AVAILABLE
-
-===================================== */
-function startLocationWatch() {
-
-  if (!navigator.geolocation) {
-
-    return;
-
-  }
-
-  if (locationWatchId !== null) {
-
-    return;
-
-  }
-
-  locationWatchId = navigator.geolocation.watchPosition(
-
-    function (position) {
-
-      console.log("Location became available.");
-
-      stopLocationWatch();
-
-      if (pendingLocationAction) {
-
-        attemptPendingLocation();
-
-      }
-
-    },
-
-    function (error) {
-
-      console.log(
-
-        "Waiting for location...",
-
-        error.code,
-
-        error.message
-
-      );
-
-    },
-
-    {
-
-      enableHighAccuracy: true,
-
-      timeout: 15000,
-
-      maximumAge: 0
-
-    }
-
-  );
-
-}
-/* =====================================
-
-   STOP LOCATION WATCH
-
-===================================== */
-
-function stopLocationWatch() {
-
-  if (
-
-    locationWatchId !== null &&
-
-    navigator.geolocation
-
-  ) {
-
-    navigator.geolocation.clearWatch(locationWatchId);
-
-    locationWatchId = null;
-
-  }
-
-}
 
 /* =====================================
 
