@@ -48,7 +48,7 @@ let locationRetryTimer = null;
 let locationWatchId = null;
 
 
-/* =====================================
+//* =====================================
 
    GET CURRENT LOCATION
 
@@ -64,32 +64,17 @@ function getCurrentLocation(successCallback, failureCallback) {
 
   }
 
-  let finished = false;
-  let watchId = null;
-
-  function stopLocationWatch() {
-
-    if (watchId !== null) {
-
-      navigator.geolocation.clearWatch(watchId);
-
-      watchId = null;
-
-    }
-
-  }
+  let completed = false;
 
   function success(position) {
 
-    if (finished) {
+    if (completed) {
 
       return;
 
     }
 
-    finished = true;
-
-    stopLocationWatch();
+    completed = true;
 
     const latitude = position.coords.latitude;
 
@@ -101,7 +86,7 @@ function getCurrentLocation(successCallback, failureCallback) {
 
   function failure(error) {
 
-    if (finished) {
+    if (completed) {
 
       return;
 
@@ -117,51 +102,9 @@ function getCurrentLocation(successCallback, failureCallback) {
 
     );
 
-    /*
+    completed = true;
 
-       Give Safari a second chance to obtain
-
-       the location after Location Services
-
-       have been turned back ON.
-
-    */
-
-    watchId = navigator.geolocation.watchPosition(
-
-      success,
-
-      function (watchError) {
-
-        console.log(
-
-          "Location watch error:",
-
-          watchError.code,
-
-          watchError.message
-
-        );
-
-        stopLocationWatch();
-
-        finished = true;
-
-        failureCallback(watchError);
-
-      },
-
-      {
-
-        enableHighAccuracy: true,
-
-        timeout: 10000,
-
-        maximumAge: 0
-
-      }
-
-    );
+    failureCallback(error);
 
   }
 
