@@ -179,6 +179,8 @@ function attemptPendingLocation() {
 
   }
 
+  const action = pendingLocationAction;
+
   getCurrentLocation(
 
     function (latitude, longitude) {
@@ -199,7 +201,7 @@ function attemptPendingLocation() {
 
       -------------------------------- */
 
-      if (pendingLocationAction === "share") {
+      if (action === "share") {
 
         pendingLocationAction = null;
 
@@ -237,53 +239,53 @@ function attemptPendingLocation() {
 
       if (
 
-        typeof pendingLocationAction === "object" &&
+        typeof action === "object" &&
 
-        pendingLocationAction.type === "emergency"
+        action.type === "emergency"
 
       ) {
 
-        const phone = pendingLocationAction.phone;
+        const phone = action.phone;
 
-        const app = pendingLocationAction.app;
+        const app = action.app;
 
         let message;
 
-if (currentLanguage === "ta") {
+        if (currentLanguage === "ta") {
 
-  message =
+          message =
 
-    "நான் சர்வஜீத்தை கண்டுபிடித்துள்ளேன். " +
+            "நான் சர்வஜீத்தை கண்டுபிடித்துள்ளேன். " +
 
-    "தயவுசெய்து அவரது குடும்பத்தினரை அவசரமாக தொடர்புகொள்ளவும். " +
+            "தயவுசெய்து அவரது குடும்பத்தினரை அவசரமாக தொடர்புகொள்ளவும். " +
 
-    "எனது தற்போதைய இருப்பிடம்: " +
+            "எனது தற்போதைய இருப்பிடம்: " +
 
-    mapUrl;
+            mapUrl;
 
-} else if (currentLanguage === "hi") {
+        } else if (currentLanguage === "hi") {
 
-  message =
+          message =
 
-    "मुझे सर्वजीत मिल गए हैं। " +
+            "मुझे सर्वजीत मिल गए हैं। " +
 
-    "कृपया उनके परिवार से तुरंत संपर्क करें। " +
+            "कृपया उनके परिवार से तुरंत संपर्क करें। " +
 
-    "मेरा वर्तमान स्थान: " +
+            "मेरा वर्तमान स्थान: " +
 
-    mapUrl;
+            mapUrl;
 
-} else {
+        } else {
 
-  message =
+          message =
 
-    "Hello, I have found Sarrvajeet. Please contact his family urgently. " +
+            "Hello, I have found Sarrvajeet. Please contact his family urgently. " +
 
-    "My current location is: " +
+            "My current location is: " +
 
-    mapUrl;
+            mapUrl;
 
-}
+        }
 
         pendingLocationAction = null;
 
@@ -333,7 +335,7 @@ if (currentLanguage === "ta") {
 
       }
 
-     },
+    },
 
     function (error) {
 
@@ -347,42 +349,23 @@ if (currentLanguage === "ta") {
 
       );
 
-      /*
+      clearTimeout(locationRetryTimer);
 
-         IMPORTANT:
+      pendingLocationAction = null;
 
-         Cancel the old action so Safari
+      alert(
 
-         cannot keep repeating it.
+        "Location is currently unavailable.\n\n" +
 
-      */
+        "Please turn ON Location Services and try again."
 
-      
-
-clearTimeout(locationRetryTimer);
-
-   alert(
-
-  "Location is currently unavailable.\n\nPlease turn ON Location Services and try again."
-
-);
-
-
-
-
-
-      
+      );
 
     }
 
   );
 
 }
-  
-
-  
-
-
 
       
 
