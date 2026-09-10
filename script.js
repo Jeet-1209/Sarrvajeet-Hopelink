@@ -47,6 +47,7 @@ let locationRetryTimer = null;
 
 let locationWatchId = null;
 
+
 /* =====================================
 
    GET CURRENT LOCATION
@@ -63,25 +64,112 @@ function getCurrentLocation(successCallback, failureCallback) {
 
   }
 
+  let finished = false;
+  let watchId = null;
+
+  function stopLocationWatch() {
+
+    if (watchId !== null) {
+
+      navigator.geolocation.clearWatch(watchId);
+
+      watchId = null;
+
+    }
+
+  }
+
+  function success(position) {
+
+    if (finished) {
+
+      return;
+
+    }
+
+    finished = true;
+
+    stopLocationWatch();
+
+    const latitude = position.coords.latitude;
+
+    const longitude = position.coords.longitude;
+
+    successCallback(latitude, longitude);
+
+  }
+
+  function failure(error) {
+
+    if (finished) {
+
+      return;
+
+    }
+
+    console.log(
+
+      "Location error:",
+
+      error.code,
+
+      error.message
+
+    );
+
+    /*
+
+       Give Safari a second chance to obtain
+
+       the location after Location Services
+
+       have been turned back ON.
+
+    */
+
+    watchId = navigator.geolocation.watchPosition(
+
+      success,
+
+      function (watchError) {
+
+        console.log(
+
+          "Location watch error:",
+
+          watchError.code,
+
+          watchError.message
+
+        );
+
+        stopLocationWatch();
+
+        finished = true;
+
+        failureCallback(watchError);
+
+      },
+
+      {
+
+        enableHighAccuracy: true,
+
+        timeout: 10000,
+
+        maximumAge: 0
+
+      }
+
+    );
+
+  }
+
   navigator.geolocation.getCurrentPosition(
 
-    function (position) {
+    success,
 
-      const latitude = position.coords.latitude;
-
-      const longitude = position.coords.longitude;
-
-      successCallback(latitude, longitude);
-
-    },
-
-    function (error) {
-
-      console.log("Location error:", error.code, error.message);
-
-      failureCallback(error);
-
-    },
+    failure,
 
     {
 
@@ -96,6 +184,7 @@ function getCurrentLocation(successCallback, failureCallback) {
   );
 
 }
+
 
 /* =====================================
 
