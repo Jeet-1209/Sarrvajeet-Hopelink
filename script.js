@@ -325,7 +325,7 @@ if (currentLanguage === "ta") {
 
       */
 
-      pendingLocationAction = null;
+      
 
 clearTimeout(locationRetryTimer);
 
