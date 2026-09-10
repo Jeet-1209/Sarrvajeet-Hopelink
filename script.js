@@ -48,7 +48,7 @@ let locationRetryTimer = null;
 let locationWatchId = null;
 
 
-//* =====================================
+/* =====================================
 
    GET CURRENT LOCATION
 
