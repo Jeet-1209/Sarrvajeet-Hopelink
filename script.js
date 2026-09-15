@@ -53,7 +53,7 @@ let locationWatchId = null;
    GET CURRENT LOCATION
 
 ===================================== */
-let locationWatchId = null;
+
 function getCurrentLocation(successCallback, failureCallback) {
 
   if (!navigator.geolocation) {
