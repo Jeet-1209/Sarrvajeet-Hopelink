@@ -288,6 +288,7 @@ function attemptPendingLocation() {
         }
 
         pendingLocationAction = null;
+stopLocationWatch();
 
         /* --------------------------------
 
