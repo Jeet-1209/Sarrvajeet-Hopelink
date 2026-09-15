@@ -318,27 +318,18 @@ stopLocationWatch();
 
         -------------------------------- */
 
-        if (app === "sms") {
+if (app === "sms") {
 
-          window.location.href =
+  window.location.href =
 
-            "sms:" +
+    "sms:" + phone + "?&body=" +
 
-            phone +
+    encodeURIComponent(message);
 
-            "?body=" +
-
-            encodeURIComponent(message);
-
-          return;
-
-        }
-
-      }
-
-    },
-
-        function (error) {
+  return;
+}    
+      },    
+         function (error) {
 
       console.log(
 
