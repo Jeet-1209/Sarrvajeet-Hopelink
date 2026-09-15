@@ -53,7 +53,7 @@ let locationWatchId = null;
    GET CURRENT LOCATION
 
 ===================================== */
-
+let locationWatchId = null;
 function getCurrentLocation(successCallback, failureCallback) {
 
   if (!navigator.geolocation) {
@@ -337,7 +337,7 @@ function attemptPendingLocation() {
 
     },
 
-    function (error) {
+        function (error) {
 
       console.log(
 
@@ -349,10 +349,6 @@ function attemptPendingLocation() {
 
       );
 
-      clearTimeout(locationRetryTimer);
-
-      pendingLocationAction = null;
-
       alert(
 
         "Location is currently unavailable.\n\n" +
@@ -361,12 +357,102 @@ function attemptPendingLocation() {
 
       );
 
+      /* Keep the pending action alive */
+
+      startLocationWatch();
+
+    }
+
+  );
+
+}
+/* =====================================
+
+   WATCH FOR LOCATION TO BECOME AVAILABLE
+
+===================================== */
+
+function startLocationWatch() {
+
+  if (!navigator.geolocation) {
+
+    return;
+
+  }
+
+  if (locationWatchId !== null) {
+
+    return;
+
+  }
+
+  locationWatchId = navigator.geolocation.watchPosition(
+
+    function (position) {
+
+      console.log("Location became available.");
+
+      stopLocationWatch();
+
+      if (pendingLocationAction) {
+
+        attemptPendingLocation();
+
+      }
+
+    },
+
+    function (error) {
+
+      console.log(
+
+        "Waiting for location...",
+
+        error.code,
+
+        error.message
+
+      );
+
+    },
+
+    {
+
+      enableHighAccuracy: true,
+
+      timeout: 15000,
+
+      maximumAge: 0
+
     }
 
   );
 
 }
 
+/* =====================================
+
+   STOP LOCATION WATCH
+
+===================================== */
+
+function stopLocationWatch() {
+
+  if (
+
+    locationWatchId !== null &&
+
+    navigator.geolocation
+
+  ) {
+
+    navigator.geolocation.clearWatch(locationWatchId);
+
+    locationWatchId = null;
+
+  }
+
+}
       
 
 
