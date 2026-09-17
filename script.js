@@ -713,15 +713,25 @@ const HOPELINK_SUPABASE_KEY =
 
 /* Create Supabase connection */
 
-const hopeLinkSupabase =
+let hopeLinkSupabase = null;
 
-  window.supabase.createClient(
+if (window.supabase) {
 
-    HOPELINK_SUPABASE_URL,
+  hopeLinkSupabase =
 
-    HOPELINK_SUPABASE_KEY
+    window.supabase.createClient(
 
-  );
+      HOPELINK_SUPABASE_URL,
+
+      HOPELINK_SUPABASE_KEY
+
+    );
+
+} else {
+
+  console.error("Supabase library is not available.");
+
+}
 
 /* Get best available location */
 
@@ -789,6 +799,11 @@ function getScanLocation() {
 /* Record HopeLink scan */
 
 async function recordHopeLinkScan() {
+  if (!hopeLinkSupabase) {
+
+    return;
+
+  }
 
   try {
 
