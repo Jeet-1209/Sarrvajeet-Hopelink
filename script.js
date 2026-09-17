@@ -6,6 +6,7 @@
 
 ===================================== */
 let currentLanguage = "en";
+alert("HopeLink JavaScript is running.");
 /* =====================================
 
    PROFILE PHOTO
