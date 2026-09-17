@@ -322,7 +322,7 @@ if (app === "sms") {
 
   window.location.href =
 
-    "sms:" + phone + "?&body=" +
+    "sms:" + phone + "?body=" +
 
     encodeURIComponent(message);
 
