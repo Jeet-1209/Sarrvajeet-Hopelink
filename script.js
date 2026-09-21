@@ -1,5 +1,4 @@
 let currentLanguage = "en";
-alert("HopeLink script.js test is working.");
 
 document.addEventListener("DOMContentLoaded", function () {
 
