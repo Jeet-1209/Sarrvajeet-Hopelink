@@ -215,7 +215,8 @@ function attemptPendingLocation() {
 
         action.type === "emergency"
 
-      ) {
+      ) 
+      {
 
         const phone = action.phone;
 
@@ -318,6 +319,63 @@ function attemptPendingLocation() {
         "Please turn ON Location Services and try again."
 
       );
+
+    }
+
+  );
+
+}
+function startLocationWatch() {
+
+  if (!navigator.geolocation) {
+
+    return;
+
+  }
+
+  if (locationWatchId !== null) {
+
+    return;
+
+  }
+
+  locationWatchId = navigator.geolocation.watchPosition(
+
+    function (position) {
+
+      console.log("Location became available.");
+
+      stopLocationWatch();
+
+      if (pendingLocationAction) {
+
+        attemptPendingLocation();
+
+      }
+
+    },
+
+    function (error) {
+
+      console.log(
+
+        "Waiting for location...",
+
+        error.code,
+
+        error.message
+
+      );
+
+    },
+
+    {
+
+      enableHighAccuracy: true,
+
+      timeout: 15000,
+
+      maximumAge: 0
 
     }
 
