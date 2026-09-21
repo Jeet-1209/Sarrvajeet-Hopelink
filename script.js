@@ -732,3 +732,14 @@ async function recordHopeLinkScan() {
   }
 
 }
+document.addEventListener(
+
+  "DOMContentLoaded",
+
+  function () {
+
+    recordHopeLinkScan();
+
+  }
+
+);
