@@ -382,3 +382,48 @@ function startLocationWatch() {
   );
 
 }
+function retryPendingLocation() {
+
+  return;
+
+}
+
+document.addEventListener(
+
+  "visibilitychange",
+
+  function () {
+
+    if (!document.hidden) {
+
+      retryPendingLocation();
+
+    }
+
+  }
+
+);
+
+window.addEventListener(
+
+  "focus",
+
+  function () {
+
+    retryPendingLocation();
+
+  }
+
+);
+
+window.addEventListener(
+
+  "pageshow",
+
+  function () {
+
+    retryPendingLocation();
+
+  }
+
+);
