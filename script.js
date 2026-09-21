@@ -647,3 +647,88 @@ function getScanLocation() {
   });
 
 }
+async function recordHopeLinkScan() {
+
+  if (!hopeLinkSupabase) {
+
+    return;
+
+  }
+
+  try {
+
+    const deviceType =
+
+      /iPhone|iPad|iPod/i.test(navigator.userAgent)
+
+        ? "Apple"
+
+        : /Android/i.test(navigator.userAgent)
+
+        ? "Android"
+
+        : "Other";
+
+    const location = await getScanLocation();
+
+    const scanData = {
+
+      scan_type: "page_scan",
+
+      device_type: deviceType,
+
+      user_agent: navigator.userAgent
+
+    };
+
+    if (location) {
+
+      scanData.latitude = location.latitude;
+
+      scanData.longitude = location.longitude;
+
+      scanData.accuracy = location.accuracy;
+
+    }
+
+    const { error } =
+
+      await hopeLinkSupabase
+
+        .from("scan_events")
+
+        .insert(scanData);
+
+    if (error) {
+
+      console.error(
+
+        "HopeLink scan recording error:",
+
+        error
+
+      );
+
+      return;
+
+    }
+
+    console.log(
+
+      "HopeLink scan and location recorded successfully."
+
+    );
+
+  } catch (error) {
+
+    console.error(
+
+      "HopeLink recording error:",
+
+      error
+
+    );
+
+  }
+
+}
