@@ -521,4 +521,43 @@ const translations = {
 
   }
 
-};
+}
+function setLanguage(language) {
+
+  currentLanguage = language;
+
+  if (language === "en") {
+
+    location.reload();
+
+    return;
+
+  }
+
+  const t = translations[language];
+
+  if (!t) {
+
+    return;
+
+  }
+
+  const elements =
+
+    document.querySelectorAll("[data-translate]");
+
+  elements.forEach(function (element) {
+
+    const key =
+
+      element.getAttribute("data-translate");
+
+    if (t[key]) {
+
+      element.textContent = t[key];
+
+    }
+
+  });
+
+}
