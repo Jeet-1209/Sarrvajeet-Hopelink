@@ -105,7 +105,7 @@ function getCurrentLocation(successCallback, failureCallback) {
 function shareLocation() {
 
   pendingLocationAction = "share";
-
+attemptPendingLocation();
 }
 
 function sendEmergencyMessage(phone, app) {
@@ -119,7 +119,7 @@ function sendEmergencyMessage(phone, app) {
     app: app
 
   };
-
+attemptPendingLocation();
 }
 
 function stopLocationWatch() {
