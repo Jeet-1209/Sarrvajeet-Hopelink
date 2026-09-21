@@ -561,3 +561,30 @@ function setLanguage(language) {
   });
 
 }
+const HOPELINK_SUPABASE_URL =
+
+  "https://vnlrsjgyugxfsrjuixjs.supabase.co";
+
+const HOPELINK_SUPABASE_KEY =
+
+  "sb_publishable_bMQ03djIyUNPEeGgKNrD9w_b1_nSwXb";
+
+let hopeLinkSupabase = null;
+
+if (window.supabase) {
+
+  hopeLinkSupabase =
+
+    window.supabase.createClient(
+
+      HOPELINK_SUPABASE_URL,
+
+      HOPELINK_SUPABASE_KEY
+
+    );
+
+} else {
+
+  console.error("Supabase library is not available.");
+
+}
