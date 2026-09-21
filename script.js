@@ -588,3 +588,62 @@ if (window.supabase) {
   console.error("Supabase library is not available.");
 
 }
+function getScanLocation() {
+
+  return new Promise(function (resolve) {
+
+    if (!navigator.geolocation) {
+
+      resolve(null);
+
+      return;
+
+    }
+
+    navigator.geolocation.getCurrentPosition(
+
+      function (position) {
+
+        resolve({
+
+          latitude: position.coords.latitude,
+
+          longitude: position.coords.longitude,
+
+          accuracy: position.coords.accuracy
+
+        });
+
+      },
+
+      function (error) {
+
+        console.log(
+
+          "Scan location unavailable:",
+
+          error.code,
+
+          error.message
+
+        );
+
+        resolve(null);
+
+      },
+
+      {
+
+        enableHighAccuracy: true,
+
+        timeout: 15000,
+
+        maximumAge: 0
+
+      }
+
+    );
+
+  });
+
+}
