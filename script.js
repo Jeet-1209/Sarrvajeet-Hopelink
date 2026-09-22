@@ -315,9 +315,7 @@ function attemptPendingLocation() {
       alert(
 
         "Location is currently unavailable.\n\n" +
-
-        "Please turn ON Location Services and try again."
-"Please turn ON Location Services and refresh the page, then try again."
+    "Please turn ON Location Services and refresh the page, then try again."
       );
 
     }
