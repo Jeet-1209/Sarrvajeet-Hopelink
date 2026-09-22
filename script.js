@@ -103,8 +103,8 @@ function getCurrentLocation(successCallback, failureCallback) {
 }
 
 function shareLocation() {
-alert("Share Location button is working.");
-  pendingLocationAction = "share";
+
+pendingLocationAction = "share";
 attemptPendingLocation();
 }
 
