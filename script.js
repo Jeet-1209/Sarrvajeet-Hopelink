@@ -741,3 +741,60 @@ document.addEventListener(
   }
 
 );
+async function getApproximateLocation(latitude, longitude) {
+
+  try {
+
+    const url =
+
+      "https://api.bigdatacloud.net/data/reverse-geocode-client" +
+
+      "?latitude=" + latitude +
+
+      "&longitude=" + longitude +
+
+      "&localityLanguage=en";
+
+    const response = await fetch(url);
+
+    if (!response.ok) {
+
+      console.log(
+
+        "Approximate location lookup failed:",
+
+        response.status
+
+      );
+
+      return null;
+
+    }
+
+    const data = await response.json();
+
+    return {
+
+      city: data.city || data.locality || "",
+
+      region: data.principalSubdivision || "",
+
+      country: data.countryName || ""
+
+    };
+
+  } catch (error) {
+
+    console.log(
+
+      "Approximate location lookup error:",
+
+      error
+
+    );
+
+    return null;
+
+  }
+
+}
