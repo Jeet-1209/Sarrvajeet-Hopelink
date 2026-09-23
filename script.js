@@ -683,7 +683,7 @@ async function recordHopeLinkScan() {
 
       scanData.latitude = location.latitude;
 
-      scanData.longitude = location.longitude;
+      scanData.longtitude = location.longitude;
 
       scanData.accuracy = location.accuracy;
 
