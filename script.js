@@ -686,8 +686,28 @@ async function recordHopeLinkScan() {
       scanData.longtitude = location.longitude;
 
       scanData.accuracy = location.accuracy;
+const approximateLocation =
 
-    }
+    await getApproximateLocation(
+
+      location.latitude,
+
+      location.longitude
+
+    );
+
+  if (approximateLocation) {
+
+    scanData.city = approximateLocation.city;
+
+    scanData.region = approximateLocation.region;
+
+    scanData.country = approximateLocation.country;
+
+  }
+
+}
+    
 
     const { error } =
 
