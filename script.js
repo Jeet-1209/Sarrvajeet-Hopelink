@@ -655,9 +655,15 @@ async function recordHopeLinkScan() {
 
   try {
 
-    const deviceType =
+    const isAppleDevice =
 
-      /iPhone|iPad|iPod/i.test(navigator.userAgent)
+      /iPhone|iPad|iPod|Macintosh/i.test(navigator.userAgent) &&
+
+      ("ontouchstart" in window || navigator.maxTouchPoints > 0);
+
+const deviceType =
+
+      isAppleDevice
 
         ? "Apple"
 
