@@ -469,7 +469,11 @@ const translations = {
 
     location: "📍 இருப்பிடம்",
 
-    shareLocation: "எனது இருப்பிடத்தைப் பகிரவும்"
+    shareLocation: "எனது இருப்பிடத்தைப் பகிரவும்",
+
+helpingSarrvajeet: "💛 சார்வஜீத்திற்கு உதவுதல்",
+
+stayCalm: "தயவுசெய்து அமைதியாக இருந்து மென்மையாகப் பேசுங்கள்"
 
   },
 
